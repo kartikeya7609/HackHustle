@@ -1,147 +1,171 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import Image from "next/image";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+import LogoIcon from "@/public/ieeesb_logo_theme.svg";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+  const { scrollY } = useScroll();
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // 1. Smart Hide Logic: Hides on scroll down, reveals on scroll up
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > previous && latest > 150) {
+      setVisible(false);
+      setIsOpen(false);
+    } else {
+      setVisible(true);
+    }
+    setScrolled(latest > 50);
+  });
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/80 backdrop-blur-sm shadow-lg" : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="text-2xl font-bold gradient-text"
+    <header className="fixed top-0 left-0 right-0 z-[100] flex justify-center p-4 md:p-6 pointer-events-none">
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{
+          y: visible ? 0 : -120,
+          opacity: visible ? 1 : 0
+        }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+        className={`
+          pointer-events-auto
+          flex items-center justify-between 
+          w-full max-w-6xl h-16 md:h-20 px-4 md:px-6
+          rounded-full border transition-all duration-500
+          ${scrolled
+            ? "bg-black/40 backdrop-blur-2xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] scale-[0.98]"
+            : "bg-white/5 backdrop-blur-md border-white/5"
+          }
+        `}
+      >
+        {/* Branding Section */}
+        <Link href="/" className="flex items-center gap-3 group px-2">
+          <motion.div
+            whileHover={{ rotate: 10, scale: 1.1 }}
+            className="bg-gradient-to-br from-white/20 to-white/5 p-2 rounded-xl border border-white/10 shadow-inner"
           >
-            HackHustle
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLinks />
-            <Button
-              variant="default"
-              className="bg-primary hover:bg-primary/90 text-md"
-            >
-              Register Now
-            </Button>
+            <Image src={LogoIcon} alt="Logo" width={28} height={28} className="w-7 h-7" />
+          </motion.div>
+          <div className="flex flex-col leading-tight hidden sm:block">
+            <span className="text-lg font-black tracking-tighter text-white uppercase italic">
+              Hack<span className="text-blue-500">Hustle</span>
+            </span>
+            <span className="text-[9px] font-black text-white/40 tracking-[0.2em] uppercase">NIT Durgapur</span>
           </div>
+        </Link>
 
-          {/* Mobile Navigation */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
+        {/* Desktop Navigation (Center Pill) */}
+        <div className="hidden md:flex items-center bg-white/[0.03] rounded-full px-1.5 py-1.5 border border-white/5 backdrop-blur-sm">
+          <NavLinks />
+        </div>
+
+        {/* CTA Section */}
+        <div className="flex items-center gap-3">
+          <Button
+            className="hidden md:flex group relative bg-white text-black hover:bg-white rounded-full font-bold px-8 overflow-hidden transition-all duration-300 active:scale-95"
           >
-            {isOpen ? (
-              <X className="text-primary" />
-            ) : (
-              <Menu className="text-primary" />
-            )}
+            <span className="relative z-10 flex items-center gap-2">
+              REGISTER <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+            </span>
+            <div className="absolute inset-0 bg-blue-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+          </Button>
+
+          <button
+            className="md:hidden w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white active:scale-90 transition-transform"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-      </div>
+      </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Modern Full-Screen Mobile Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            viewport={{ once: false }}
-            className="md:hidden bg-black/95 border-b border-white/10 overflow-hidden"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            className="fixed inset-0 z-[-1] md:hidden bg-black/60 flex flex-col items-center justify-center p-8 pointer-events-auto"
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="flex flex-col items-center gap-8 w-full"
+            >
               <NavLinks mobile setIsOpen={setIsOpen} />
-              <Button
-                variant="default"
-                className="bg-primary hover:bg-primary/90 w-full"
-              >
-                Register Now
+              <Button className="w-full max-w-xs bg-blue-600 hover:bg-blue-500 text-white rounded-full py-7 text-xl font-black shadow-[0_10px_30px_rgba(59,130,246,0.5)]">
+                JOIN THE HUSTLE
               </Button>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 }
 
-function NavLinks({
-  mobile = false,
-  setIsOpen = () => {},
-}: {
-  mobile?: boolean;
-  setIsOpen?: (value: boolean) => void;
-}) {
+function NavLinks({ mobile, setIsOpen }: { mobile?: boolean; setIsOpen?: any }) {
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+
   const links = [
+    { href: "#home", label: "Home" },
     { href: "#about", label: "About" },
-    { href: "#topics", label: "Topics" },
     { href: "#timeline", label: "Timeline" },
-    { href: "#prizes", label: "Prizes" },
-    { href: "#faq", label: "FAQ" },
     { href: "#contact", label: "Contact" },
   ];
 
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    const href = e.currentTarget.href;
-    const targetId = href.replace(/.*#/, "");
-    const elem = document.getElementById(targetId);
-
-    if (mobile) {
-      setIsOpen(false);
-      setTimeout(() => {
-        elem?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    } else {
-      elem?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <>
+    <div
+      className={`flex ${mobile ? "flex-col items-center gap-10" : "flex-row gap-1"}`}
+      onMouseLeave={() => !mobile && setHoveredPath(null)}
+    >
       {links.map((link) => (
         <Link
           key={link.href}
           href={link.href}
-          className={`text-md hover:text-primary transition-colors ${
-            mobile ? "block py-2" : ""
-          }`}
-          onClick={handleScroll}
+          onMouseEnter={() => !mobile && setHoveredPath(link.href)}
+          onClick={() => mobile && setIsOpen(false)}
+          className={`
+            relative px-5 py-2 text-sm font-bold transition-all rounded-full outline-none
+            ${mobile ? "text-4xl font-black uppercase tracking-tighter text-white" : "text-white/60 hover:text-white"}
+          `}
         >
-          {link.label}
+          <span className="relative z-10">{link.label}</span>
+
+          {/* Animated Hover Background (Pill) */}
+          <AnimatePresence>
+            {hoveredPath === link.href && !mobile && (
+              <motion.div
+                layoutId="nav-hover"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="absolute inset-0 bg-white/10 rounded-full -z-0 border border-white/5"
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Persistent Active Underline for Home */}
+          {link.label === "Home" && !mobile && !hoveredPath && (
+            <motion.div
+              layoutId="nav-active"
+              className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-500 rounded-full"
+            />
+          )}
         </Link>
       ))}
-    </>
+    </div>
   );
 }

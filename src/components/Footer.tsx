@@ -11,171 +11,168 @@ import {
   MapPin,
   Mail,
   Phone,
+  ArrowUp
 } from "lucide-react";
+import BlurText from "@/components/BlurText";
 
 export default function Footer() {
+  const socialLinks = [
+    { name: "Facebook", icon: <Facebook size={20} />, href: "#", color: "hover:bg-[#1877f2]", brand: "bg-[#1877f2]" },
+    { name: "Twitter", icon: <Twitter size={20} />, href: "#", color: "hover:bg-[#222222]", brand: "bg-[#222222]" },
+    { name: "Instagram", icon: <Instagram size={20} />, href: "#", color: "hover:bg-[#e4405f]", brand: "bg-[#e4405f]" },
+    { name: "Github", icon: <Github size={20} />, href: "#", color: "hover:bg-[#333333]", brand: "bg-[#333333]" },
+    { name: "Linkedin", icon: <Linkedin size={20} />, href: "#", color: "hover:bg-[#0077b5]", brand: "bg-[#0077b5]" },
+  ];
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="py-12 border-t border-white/10">
-      <div className="container mx-auto px-8">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* About Section */}
+    <footer className="relative py-16 border-t border-white/5 bg-[#05010a] overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[200px] bg-purple-600/5 blur-[120px] pointer-events-none" />
+
+      <div className="container relative z-10 mx-auto px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+          {/* 1. About Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: false }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            className="space-y-6"
           >
-            <h3 className="text-xl font-bold gradient-text">HackHustle</h3>
-            <p className="text-muted-foreground">
-              Join us for 24 hours of innovation, collaboration, and creative
-              problem-solving.
+            <h3 className="text-3xl font-black text-white tracking-tighter italic">
+              HACK<span className="text-purple-500">HUSTLE</span>
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
+              Empowering the next generation of innovators at NIT Durgapur. Join us for a 24-hour sprint of creation and collaboration.
             </p>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* 2. Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: false }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            className="space-y-6"
           >
-            <h4 className="font-bold">Quick Links</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="#about"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#topics"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Topics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#timeline"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Timeline
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#faq"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  FAQ
-                </Link>
-              </li>
+            <BlurText
+              text="Navigation"
+              className="text-xs font-bold uppercase tracking-[0.2em] text-blue-400"
+              animateBy="letters"
+              direction="bottom"
+              delay={50}
+            />
+            <ul className="grid grid-cols-2 gap-y-3 gap-x-4">
+              {["About", "Topics", "Timeline", "Prizes", "FAQ", "Contact"].map((item) => (
+                <li key={item}>
+                  <Link
+                    href={`#${item.toLowerCase()}`}
+                    className="text-gray-500 hover:text-white transition-all text-sm hover:translate-x-1 inline-block"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </motion.div>
 
-          {/* Follow Us */}
+          {/* 3. Social Media (With your requested Pop-up CSS) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: false }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            className="space-y-6"
           >
-            <h4 className="font-bold">Follow Us</h4>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Github className="w-5 h-5" />
-              </a>
+            <BlurText
+              text="Social Pulse"
+              className="text-xs font-bold uppercase tracking-[0.2em] text-blue-400"
+              animateBy="letters"
+              direction="bottom"
+              delay={50}
+            />
+            <div className="flex flex-wrap gap-4">
+              {socialLinks.map((social) => (
+                <div key={social.name} className="relative group">
+                  {/* Tooltip implementation */}
+                  <div className={`
+                    absolute -top-10 left-1/2 -translate-x-1/2 
+                    px-3 py-1.5 rounded-lg text-white text-[10px] font-bold 
+                    opacity-0 transition-all duration-300 pointer-events-none 
+                    group-hover:opacity-100 group-hover:-top-12 shadow-xl
+                    ${social.brand}
+                  `}>
+                    {social.name}
+                    {/* Tooltip Arrow */}
+                    <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 ${social.brand}`} />
+                  </div>
+
+                  {/* Icon Wrapper */}
+                  <a
+                    href={social.href}
+                    className={`
+                      flex items-center justify-center w-12 h-12 
+                      bg-white/5 rounded-2xl text-gray-400 border border-white/10 
+                      transition-all duration-300 group-hover:text-white 
+                      group-hover:scale-110 group-hover:rotate-6 ${social.color}
+                    `}
+                  >
+                    {social.icon}
+                  </a>
+                </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Address */}
+          {/* 4. Contact Details */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: false }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            className="space-y-6"
           >
-            <h4 className="font-bold">Address</h4>
-            <div className="space-y-3">
-              <div className="flex items-start gap-2">
-                <MapPin className="w-5 h-5 text-muted-foreground" />
-                <div className="text-muted-foreground text-sm">
-                  Mahatma Gandhi Rd, A-Zone, Durgapur <br />
-                  Durgapur - 713209 <br />
-                  West Bengal, India
-                </div>
+            <BlurText
+              text="Headquarters"
+              className="text-xs font-bold uppercase tracking-[0.2em] text-blue-400"
+              animateBy="letters"
+              direction="bottom"
+              delay={50}
+            />
+            <div className="space-y-4 text-sm text-gray-400">
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="text-purple-500 shrink-0 mt-0.5" />
+                <span>NIT Durgapur, Mahatma Gandhi Rd, West Bengal 713209</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-5 h-5 text-muted-foreground" />
-                <a
-                  href="mailto:info@hackhustle.com"
-                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                >
-                  info@hackhustle.com
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-5 h-5 text-muted-foreground" />
-                <a
-                  href="tel:+919883862688"
-                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                >
-                  +91 9883862688
-                </a>
+              <div className="flex items-center gap-3">
+                <Mail size={18} className="text-purple-500 shrink-0" />
+                <a href="mailto:info@hackhustle.com" className="hover:text-white transition-colors">info@hackhustle.com</a>
               </div>
             </div>
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: false }}
-          className="text-center pt-8 border-t border-white/10"
-        >
-          <p className="text-muted-foreground">
-            Made with{" "}
-            <span role="img" aria-label="heart">
-              ❤️
-            </span>{" "}
-            by IEEE SB NITD
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-gray-500 text-[10px] uppercase tracking-widest text-center md:text-left">
+            © 2025 HackHustle. Crafted with <span className="text-red-500 animate-pulse">❤️</span> by IEEE SB NITD
           </p>
-        </motion.div>
+
+          <button
+            onClick={scrollToTop}
+            className="group flex items-center gap-2 text-[10px] font-bold text-white uppercase tracking-[0.2em] hover:text-purple-400 transition-colors"
+          >
+            Back to top
+            <div className="p-2 rounded-lg bg-white/5 border border-white/10 group-hover:-translate-y-1 transition-transform">
+              <ArrowUp size={14} />
+            </div>
+          </button>
+        </div>
       </div>
     </footer>
   );

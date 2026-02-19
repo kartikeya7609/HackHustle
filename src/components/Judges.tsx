@@ -2,92 +2,101 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FiInstagram, FiLinkedin, FiGithub } from "react-icons/fi";
+import { FiInstagram, FiLinkedin, FiGithub, FiExternalLink } from "react-icons/fi";
 import { judges } from "../public/judges";
+import BlurText from "@/components/BlurText";
 
 export default function Judges() {
   return (
-    <section id="judges" className="py-20 relative overflow-hidden">
-      <motion.div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 50% 50%, var(--primary) 0%, transparent 50%)",
-          opacity: 0.1,
-        }}
-        animate={{
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "linear",
-        }}
-      />
+    <section id="judges" className="relative py-32 bg-[#05010a] overflow-hidden">
+      {/* 1. Ambient Background Atmosphere */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] animate-pulse delay-1000" />
+      </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 gradient-text">
-            Judges & Mentors
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Meet our distinguished panel of judges and industry expert mentors.
-          </p>
-        </motion.div>
+      <div className="container relative z-10 mx-auto px-4">
+        {/* 2. Precision Header */}
+        <div className="text-center mb-24 space-y-4">
+          <BlurText
+            text="The Evaluation Panel"
+            className="text-4xl md:text-7xl font-black text-white tracking-tighter uppercase italic justify-center"
+            animateBy="words"
+            direction="bottom"
+          />
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-blue-400 font-bold uppercase tracking-[0.3em] text-xs"
+          >
+            Mentors & Judges from Top Tech Giants
+          </motion.p>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        {/* 3. The Grid of Experts */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 max-w-7xl mx-auto">
           {judges.map((judge, index) => (
-            <motion.div
-              key={judge.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group"
-            >
-              <div className="relative aspect-square rounded-full overflow-hidden mx-auto max-w-[240px] glow-container">
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-lighten" />
-                <div className="absolute inset-0 rounded-full shadow-xl shadow-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Image
-                  src={judge.image || "/placeholder.svg"}
-                  alt={judge.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="relative z-10 transition-transform duration-300 group-hover:scale-[1.02]"
-                />
-              </div>
-              <div className="text-center mt-6 relative">
-                <h3 className="text-xl font-bold mb-2">{judge.name}</h3>
-                <p className="text-muted-foreground mb-4">{judge.role}</p>
-                <div className="flex justify-center gap-4">
-                  {[
-                    { icon: FiInstagram, href: judge.instagram },
-                    { icon: FiLinkedin, href: judge.linkedin },
-                    { icon: FiGithub, href: judge.github },
-                  ].map((social, i) => (
-                    <motion.a
-                      key={i}
-                      href={social.href}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                      whileHover={{ y: -3 }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ type: "spring", stiffness: 400 }}
-                    >
-                      <social.icon className="w-6 h-6" />
-                    </motion.a>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+            <JudgeCard key={judge.name} judge={judge} index={index} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+/* --- Interactive Judge Card Component --- */
+
+function JudgeCard({ judge, index }: { judge: any; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className="group relative"
+    >
+      {/* 4. The Profile "Capsule" */}
+      <div className="relative mx-auto w-[240px] aspect-[4/5] rounded-[4rem] overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 group-hover:border-purple-500/50 group-hover:scale-[1.02] group-hover:-translate-y-2">
+
+        {/* Neon Ring Hover Effect */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none">
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-purple-600/40 to-transparent" />
+        </div>
+
+        <Image
+          src={judge.image || "/placeholder.svg"}
+          alt={judge.name}
+          fill
+          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out scale-110 group-hover:scale-100"
+        />
+
+        {/* Floating Social Quick-Access */}
+        <div className="absolute top-4 right-4 flex flex-col gap-2 z-30 translate-x-12 group-hover:translate-x-0 transition-transform duration-500">
+          <a href={judge.linkedin} className="p-2 rounded-full bg-black/60 text-white backdrop-blur-md hover:bg-purple-600 transition-colors">
+            <FiLinkedin size={16} />
+          </a>
+          <a href={judge.github} className="p-2 rounded-full bg-black/60 text-white backdrop-blur-md hover:bg-purple-600 transition-colors">
+            <FiGithub size={16} />
+          </a>
+        </div>
+      </div>
+
+      {/* 5. Typography & Details */}
+      <div className="mt-8 text-center space-y-2">
+        <h3 className="text-2xl font-black text-white uppercase tracking-tight italic group-hover:text-purple-400 transition-colors">
+          {judge.name}
+        </h3>
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 bg-blue-500/10 inline-block px-3 py-1 rounded-full border border-blue-500/20">
+          {judge.role}
+        </p>
+
+        {/* Subtle decorative dots */}
+        <div className="flex justify-center gap-1.5 pt-4">
+          <div className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-purple-500 transition-colors" />
+          <div className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-purple-500 transition-colors delay-75" />
+          <div className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-purple-500 transition-colors delay-150" />
+        </div>
+      </div>
+    </motion.div>
   );
 }
