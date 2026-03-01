@@ -16,11 +16,11 @@ import BlurText from "@/components/BlurText";
 
 export default function Footer() {
   const socialLinks = [
-    { name: "Facebook", icon: <Facebook size={20} />, href: "#", color: "hover:bg-[#1877f2]", brand: "bg-[#1877f2]" },
-    { name: "Twitter", icon: <Twitter size={20} />, href: "#", color: "hover:bg-[#222222]", brand: "bg-[#222222]" },
-    { name: "Instagram", icon: <Instagram size={20} />, href: "#", color: "hover:bg-[#e4405f]", brand: "bg-[#e4405f]" },
-    { name: "Github", icon: <Github size={20} />, href: "#", color: "hover:bg-[#333333]", brand: "bg-[#333333]" },
-    { name: "Linkedin", icon: <Linkedin size={20} />, href: "#", color: "hover:bg-[#0077b5]", brand: "bg-[#0077b5]" },
+    { name: "Facebook", icon: <Facebook size={18} />, href: "https://www.facebook.com/nitdgpieeesociety", color: "hover:bg-[#1877f2]", brand: "bg-[#1877f2]" },
+    { name: "Twitter", icon: <Twitter size={18} />, href: "https://x.com/", color: "hover:bg-[#222222]", brand: "bg-[#222222]" },
+    { name: "Instagram", icon: <Instagram size={18} />, href: "https://www.instagram.com/ieeesb_nitdgp/", color: "hover:bg-[#e4405f]", brand: "bg-[#e4405f]" },
+    { name: "Github", icon: <Github size={18} />, href: "https://github.com/", color: "hover:bg-[#333333]", brand: "bg-[#333333]" },
+    { name: "Linkedin", icon: <Linkedin size={18} />, href: "https://www.linkedin.com/company/ieeesbnitdgp/", color: "hover:bg-[#0077b5]", brand: "bg-[#0077b5]" },
   ];
 
   const scrollToTop = () => {
