@@ -111,7 +111,7 @@ export default function Hero() {
 
             {/* Title with Chrome Effect - Adjusted for Mobile Visibility */}
             <div className="relative mb-6 w-full overflow-hidden sm:overflow-visible px-4">
-              <h1 className="text-5xl sm:text-8xl md:text-[11rem] font-black leading-none tracking-tighter text-white uppercase italic break-all sm:break-normal">
+              <h1 className="text-[2.75rem] min-[400px]:text-5xl sm:text-8xl md:text-[11rem] font-black leading-none tracking-tighter text-white uppercase italic break-all sm:break-normal">
                 HACK<span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-purple-500 to-blue-600 drop-shadow-[0_0_35px_rgba(168,85,247,0.3)]">HUSTLE</span>
               </h1>
               {/* Year Stamp - Scaled & Repositioned for Mobile */}
