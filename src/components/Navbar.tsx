@@ -70,14 +70,16 @@ export default function Navbar() {
 
         {/* CTA Section */}
         <div className="flex items-center gap-3">
-          <Button
-            className="hidden md:flex group relative bg-white text-black hover:bg-white rounded-full font-bold px-8 overflow-hidden transition-all duration-300 active:scale-95"
+          <Link
+            href="https://docs.google.com/forms/d/e/1FAIpQLScRVKpLp18DsDzfPH9_EAKHkFdeRHUi1075pfq-VAu9ja7_jw/viewform?usp=publish-editor"
+            target="_blank"
+            className="hidden md:flex group relative bg-white text-black hover:bg-white rounded-full font-bold px-8 py-3 overflow-hidden transition-all duration-300 active:scale-95 items-center gap-2"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              REGISTER <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+            <span className="relative z-10 flex items-center gap-2 uppercase">
+              Register <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
             </span>
             <div className="absolute inset-0 bg-blue-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-          </Button>
+          </Link>
 
           <button
             className="md:hidden w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white active:scale-90 transition-transform"
@@ -103,10 +105,13 @@ export default function Navbar() {
               transition={{ delay: 0.1 }}
               className="flex flex-col items-center gap-8 w-full"
             >
-              <NavLinks mobile setIsOpen={setIsOpen} />
-              <Button className="w-full max-w-xs bg-blue-600 hover:bg-blue-500 text-white rounded-full py-7 text-xl font-black shadow-[0_10px_30px_rgba(59,130,246,0.5)]">
+              <Link
+                href="https://docs.google.com/forms/d/e/1FAIpQLScRVKpLp18DsDzfPH9_EAKHkFdeRHUi1075pfq-VAu9ja7_jw/viewform?usp=publish-editor"
+                target="_blank"
+                className="w-full max-w-xs bg-blue-600 hover:bg-blue-500 text-white rounded-full py-5 text-xl font-black shadow-[0_10px_30px_rgba(59,130,246,0.5)] text-center transition-all active:scale-95"
+              >
                 JOIN THE HUSTLE
-              </Button>
+              </Link>
             </motion.div>
           </motion.div>
         )}
