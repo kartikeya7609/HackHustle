@@ -37,13 +37,13 @@ export default function Home() {
           <Navbar />
           <Header />
           <About />
+          <SubmitSection />
           <Topics />
           <Timeline />
           <Speakers />
           <Prizes />
-          <Faqs />
           <Partners />
-          <SubmitSection />
+          <Faqs />
           <Contact />
           <Footer />
         </motion.div>
